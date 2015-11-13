@@ -167,11 +167,9 @@ configureNFS()
 
   echoWarn "\n !!! Sudo will be necessary for editing /etc/exports !!!"
 
-  local user_mapping="$(id -u):$(id -g)"
-
   # Update the /etc/exports file and restart nfsd
   (
-    echo '\n"/Users" '$prop_machine_ip' -alldirs -mapall='$user_mapping'\n' |
+    echo '\n"/Users" '$prop_machine_ip' -alldirs -maproot=0\n' |
       sudo tee -a /etc/exports && awk '!a[$0]++' /etc/exports |
       sudo tee /etc/exports
   ) > /dev/null
